@@ -1,7 +1,7 @@
 package peergos.shared.cbor;
 
-import peergos.shared.io.ipfs.cid.*;
-import peergos.shared.io.ipfs.multihash.*;
+import io.ipfs.cid.*;
+import io.ipfs.multihash.*;
 
 import java.io.*;
 import java.util.*;

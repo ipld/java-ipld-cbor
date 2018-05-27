@@ -57,9 +57,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.multiformats</groupId>
-			<artifactId>java-multihash</artifactId>
-			<version>v1.0.0</version>
+			<groupId>com.github.ipld</groupId>
+			<artifactId>java-cid</artifactId>
+			<version>v1.0.1</version>
 		</dependency>
 	</dependencies>
 
