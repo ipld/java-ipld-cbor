@@ -2,8 +2,7 @@ package peergos.server.tests;
 
 import org.junit.*;
 import peergos.shared.cbor.*;
-import peergos.shared.io.ipfs.multihash.*;
-import peergos.shared.util.*;
+import io.ipfs.multihash.*;
 
 import java.util.*;
 
@@ -19,7 +18,7 @@ public class CborObjects {
     @Test
     public void dosCborObject() throws Throwable {
         // make a header for a byte[] that is 2^50 long
-        byte[] raw = ArrayOps.hexToBytes("5b0004000000000000");
+        byte[] raw = hexToBytes("5b0004000000000000");
         try {
             CborObject.fromByteArray(raw);
             Assert.fail("Should have failed!");
@@ -115,5 +114,12 @@ public class CborObjects {
         byte[] raw2 = deserialized.toByteArray();
         boolean sameRaw = Arrays.equals(raw, raw2);
         Assert.assertTrue("Idempotent serialization", sameRaw);
+    }
+
+    public static byte[] hexToBytes(String hex) {
+        byte[] res = new byte[hex.length()/2];
+        for (int i=0; i < res.length; i++)
+            res[i] = (byte) Integer.parseInt(hex.substring(2*i, 2*i+2), 16);
+        return res;
     }
 }
