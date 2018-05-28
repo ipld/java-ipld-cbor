@@ -44,6 +44,8 @@ byte[] raw = cborList.toByteArray();
 // Deserialization
 CborObject deserialized = CborObject.fromByteArray(raw);
 
+// Custom classes can implement Cborable to implement their own cbor format (with a corresponding static fromCbor method)
+
 ```
 ## Dependency
 You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#ipld/java-ipld-cbor/) (also supporting Gradle, SBT, etc).
