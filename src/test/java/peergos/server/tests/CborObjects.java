@@ -1,8 +1,12 @@
 package peergos.server.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 import peergos.shared.cbor.*;
+
 import io.ipfs.multihash.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.*;
 
@@ -16,43 +20,43 @@ public class CborObjects {
     }
 
     @Test
-    public void dosCborObject() throws Throwable {
+    void dosCborObject() throws Throwable {
         // make a header for a byte[] that is 2^50 long
         byte[] raw = hexToBytes("5b0004000000000000");
         try {
             CborObject.fromByteArray(raw);
-            Assert.fail("Should have failed!");
+            fail("Should have failed!");
         } catch (RuntimeException e) {}
     }
 
     @Test
-    public void cborNull() {
+    void cborNull() {
         CborObject.CborNull cbor = new CborObject.CborNull();
         compatibleAndIdempotentSerialization(cbor);
     }
 
     @Test
-    public void cborString() {
+    void cborString() {
         String value = "G'day mate!";
         CborObject.CborString cbor = new CborObject.CborString(value);
         compatibleAndIdempotentSerialization(cbor);
     }
 
     @Test
-    public void cborByteArray() {
+    void cborByteArray() {
         byte[] value = random(32);
         CborObject.CborByteArray cbor = new CborObject.CborByteArray(value);
         compatibleAndIdempotentSerialization(cbor);
     }
 
     @Test
-    public void cborBoolean() {
+    void cborBoolean() {
         compatibleAndIdempotentSerialization(new CborObject.CborBoolean(true));
         compatibleAndIdempotentSerialization(new CborObject.CborBoolean(false));
     }
 
     @Test
-    public void cborLongs() {
+    void cborLongs() {
         cborLong(rnd.nextLong());
         cborLong(Long.MAX_VALUE);
         cborLong(Long.MIN_VALUE);
@@ -69,14 +73,14 @@ public class CborObjects {
     }
 
     @Test
-    public void cborMerkleLink() {
+    void cborMerkleLink() {
         Multihash hash = Multihash.fromBase58("QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB");
         CborObject.CborMerkleLink link = new CborObject.CborMerkleLink(hash);
         compatibleAndIdempotentSerialization(link);
     }
 
     @Test
-    public void cborMap() {
+    void cborMap() {
         SortedMap<CborObject, CborObject> map = new TreeMap<>();
         map.put(new CborObject.CborString("KEY 1"), new CborObject.CborString("A value"));
         map.put(new CborObject.CborString("KEY 2"), new CborObject.CborByteArray("Another value".getBytes()));
@@ -95,7 +99,7 @@ public class CborObjects {
     }
 
     @Test
-    public void cborList() {
+    void cborList() {
         List<CborObject> list = new ArrayList<>();
         list.add(new CborObject.CborString("A value"));
         list.add(new CborObject.CborByteArray("A value".getBytes()));
@@ -110,10 +114,10 @@ public class CborObjects {
         CborObject deserialized = CborObject.fromByteArray(raw);
 
         boolean equals = deserialized.equals(value);
-        Assert.assertTrue("Equal objects", equals);
+        assertTrue(equals, "Equal objects");
         byte[] raw2 = deserialized.toByteArray();
         boolean sameRaw = Arrays.equals(raw, raw2);
-        Assert.assertTrue("Idempotent serialization", sameRaw);
+        assertTrue(sameRaw, "Idempotent serialization");
     }
 
     public static byte[] hexToBytes(String hex) {
